@@ -13,27 +13,8 @@ function botTurn() {
 	var move;
 	var cell;
 
-	// Grabs all available cells.
-	cellsAvail = cellsAvailable(board);
-
-	if(cellsAvail.length > 0 && gameIsDone == false) {
-		// Picks the first instance for now.
-		x = cellsAvail[0][0];
-		y = cellsAvail[0][1];
-
-
-		// console.log("x : " + x);
-		// console.log("y : " + y);
-
-		// Place the move.
-		if (placeMove(x, y, BOT)) {
-			cell = document.getElementById(String(x) + String(y));
-			cell.innerHTML = "O";
-			who = 1;
-		}
-	} else {
-
-	}
+	mm = new MinMax(board);
+	console.log(mm.getBestMove())
 }
 
 /* 
