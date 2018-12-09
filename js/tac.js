@@ -4,6 +4,30 @@ var YOU = 1;
 var BOT = -1;
 var who = 1;
 
+
+/* 
+ * It's the bots turn.
+*/
+function botTurn() {
+	var x, y;
+	var move;
+	var cell;
+
+	cellsAvail = cellsAvailable(board);
+	x = cellsAvail[0][0];
+	y = cellsAvail[0][1];
+
+
+	console.log("x : " + x);
+	console.log("y : " + y);
+
+	if (placeMove(x, y, BOT)) {
+		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+		who = 1;
+	}
+}
+
 /* 
  * Cells that are left on the board to be chosen
 */
@@ -14,7 +38,7 @@ function cellsAvailable(current_state){
 	for (var x = 0; x < 3; x++) {
 		for (var y = 0; y < 3; y++) {
 			if (current_state[x][y] == 0)
-				cells.push([x, y]);
+				cellsAvailable.push([x, y]);
 		}
 	}
 
@@ -34,20 +58,17 @@ function selectCell(cell) {
 	var x = cell.id.split("")[0];
 	var y = cell.id.split("")[1];
 	
+	// You clicked .. ?
 	if(who == 1) {
 		var move = placeMove(x, y, YOU);
 		if (move == true) {
 			cell.innerHTML = "X";
 			who = 0;
-		}
-	} else if(who == 0) {
-		var move = placeMove(x, y, BOT);
-		if (move == true) {
-			cell.innerHTML = "O";
-			who = 1;
+			botTurn();
 		}
 	}
 
+	// Check the states after each click.
 	if (gameIsOver(board) > 0) {
 		var mess = document.getElementById("message");
 		mess.innerHTML = "YOU WIN!";
