@@ -23,6 +23,7 @@ function selectCell(cell) {
 		var move = placeMove(x, y, BOT);
 		if (move == true) {
 			cell.innerHTML = "O";
+			checkWin();
 			who = 1;
 		}
 	} 
@@ -46,7 +47,6 @@ function moveIsValid(x, y) {
 }
 
 function checkWin() {
-	console.log("CALLED")
 	console.log(board);
 	if((board[0][0] === 1 && board[1][0] === 1 && board[2][0] === 1) ||
 	   (board[0][1] === 1 && board[1][1] === 1 && board[2][1] === 1) ||
@@ -57,12 +57,16 @@ function checkWin() {
 	   (board[0][0] === 1 && board[1][1] === 1 && board[2][2] === 1) || 
 	   (board[0][2] === 1 && board[1][1] === 1 && board[2][0] === 1)) {
 			var mess = document.getElementById("message");
-			mess.innerHTML = "YOU WIN!";
-			console.log("WOO")	
+			mess.innerHTML = "X WINS!";
+	} else if ((board[0][0] === -1 && board[1][0] === -1 && board[2][0] === -1) ||
+	   (board[0][1] === -1 && board[1][1] === -1 && board[2][1] === -1) ||
+	   (board[0][2] === -1 && board[1][2] === -1 && board[2][2] === -1) ||
+	   (board[0][0] === -1 && board[0][1] === -1 && board[0][2] === -1) ||
+	   (board[1][0] === -1 && board[1][1] === -1 && board[1][2] === -1) ||
+	   (board[2][0] === -1 && board[2][1] === -1 && board[2][2] === -1) ||
+	   (board[0][0] === -1 && board[1][1] === -1 && board[2][2] === -1) || 
+	   (board[0][2] === -1 && board[1][1] === -1 && board[2][0] === -1)) {
+		var mess = document.getElementById("message");
+		mess.innerHTML = "O WINS!";
 	}
-	// if (board === [[1, 0, 0], [1, 0, 0], [1, 0, 0]] || board == [[0, 1, 0], [0, 1, 0], [0, 1, 0]] || board == [[0, 0, 1], [0, 0, 1], [0, 0, 1]] || board == [[1, 1, 1], [0, 0, 0], [0, 0, 0]] || board == [[0, 0, 0], [1, 1, 1], [0, 0, 0]] || board == [[0, 0, 0], [0, 0, 0], [1, 1, 1]] || board == [[1, 0, 0], [0, 1, 0], [0, 0, 1]] || board == [[0, 0, 1], [0, 1, 0], [1, 0, 0]]) {
-	// 	var mess = document.getElementById("message");
-	// 	mess.innerHTML = "YOU WIN!";
-	// 	console.log("WOO")
-	// }
 }
