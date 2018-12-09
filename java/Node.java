@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Node {
@@ -6,6 +7,8 @@ public class Node {
 	private int USER_NUM = 1;
 	
 	boolean isBotTurn;
+	
+	int depth = 0;
 	
 	int[] movePlayed = new int[2];
 	
@@ -16,18 +19,19 @@ public class Node {
 	
 	LinkedList<Node> neighbors = new LinkedList<Node>();
 	
-	public Node(boolean isBotTurn, int[][] board) {
+	public Node(boolean isBotTurn, int[][] board, int depth) {
 		this.isBotTurn = isBotTurn;
 		this.board = board;
+		this.depth = depth;
 		
 		GenerateNeighbors();
 		
 		int winningPlayer = winningPlayer();
 		if (winningPlayer != 0) {
 			if (winningPlayer == BOT_NUM) {
-				this.value = 10;
+				this.value = 10 - depth;
 			} else {
-				this.value = -10;
+				this.value = depth - 10;
 			}
 			this.isGameDone = true;
 		} else if (gameIsDone()) {
@@ -57,7 +61,7 @@ public class Node {
 						newBoard[i][k] = USER_NUM;
 					}
 					
-					Node newNode = new Node(!isBotTurn, newBoard);
+					Node newNode = new Node(!isBotTurn, newBoard, depth + 1);
 					newNode.movePlayed = new int[]{i, k};
 					neighbors.add(newNode);
 				}
@@ -81,6 +85,13 @@ public class Node {
 			return board[0][2];
 		
 		return 0;
+	}
+	
+	public void print() {
+		for (int i=0; i<3; ++i) {
+			System.out.println(Arrays.toString(board[i]));
+		}
+		System.out.println();
 	}
 	
 }

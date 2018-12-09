@@ -8,9 +8,9 @@ public class MinMax {
 		System.out.println("MIN/MAX");
 		
 		int[][] startingBoard = {
-			{0,1,0},
-			{0,0,1},
-			{2,2,1}
+			{1,2,1},
+			{2,2,1},
+			{0,1,0}
 		};
 		
 		MinMax mm = new MinMax(startingBoard);
@@ -18,7 +18,7 @@ public class MinMax {
 	}
 	
 	public MinMax(int[][] board) {
-		Node currentNode = new Node(true, board);
+		Node currentNode = new Node(true, board, 0);
 		
 		int bestValue = Integer.MIN_VALUE;
 		int[] bestMove = new int[2];
@@ -26,7 +26,9 @@ public class MinMax {
 	
 		for (Node n : currentNode.neighbors) {
 			int v = calcMinMax(n);
-			
+			n.print();
+			System.out.println(v);
+			System.out.println();
 			if (v > bestValue) {
 				bestValue = v;
 				bestMove = n.movePlayed;
