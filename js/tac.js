@@ -61,9 +61,9 @@ function selectCell(cell) {
  * Place a move at position (x,y).
  * Assign player value to board.
 */
-function placeMove(x, y, val) {
+function placeMove(x, y, playerValue) {
 	if (moveIsValid(x, y)) {
-		board[x][y] = val;
+		board[x][y] = playerValue;
 		return true;
 	} else {
 		return false;
@@ -109,16 +109,16 @@ function moveIsValid(x, y) {
 /* 
  * Given a game state and a player number, check if either of them win.
 */
-function checkGameOver(state, playerValue) {
+function checkGameOver(current_state, playerValue) {
 	// All states where someone wins
-	var allStates = [[state[0][0], state[0][1], state[0][2]],
-					 [state[1][0], state[1][1], state[1][2]],
-					 [state[2][0], state[2][1], state[2][2]],
-					 [state[0][0], state[1][0], state[2][0]],
-					 [state[0][1], state[1][1], state[2][1]],
-					 [state[0][2], state[1][2], state[2][2]],
-					 [state[0][0], state[1][1], state[2][2]],
-					 [state[2][0], state[1][1], state[0][2]]];
+	var allStates = [[current_state[0][0], current_state[0][1], current_state[0][2]],
+					 [current_state[1][0], current_state[1][1], current_state[1][2]],
+					 [current_state[2][0], current_state[2][1], current_state[2][2]],
+					 [current_state[0][0], current_state[1][0], current_state[2][0]],
+					 [current_state[0][1], current_state[1][1], current_state[2][1]],
+					 [current_state[0][2], current_state[1][2], current_state[2][2]],
+					 [current_state[0][0], current_state[1][1], current_state[2][2]],
+					 [current_state[2][0], current_state[1][1], current_state[0][2]]];
 
 	// For all possible states, check if you won.
 	for (var i = 0; i < 8; i++) {
@@ -143,12 +143,12 @@ function checkGameOver(state, playerValue) {
  * Send same state, with both player and bot value.
  * Return the winner.
 */
-function gameIsOver(state) {
-	if(checkGameOver(state, YOU) == true) {
+function gameIsOver(current_state) {
+	if(checkGameOver(current_state, YOU) == true) {
 		console.log("You win!")
 		return 1;
 	} else {
-		if(checkGameOver(state, BOT) == true) {
+		if(checkGameOver(current_state, BOT) == true) {
 			console.log("You win!")
 			return -1;
 		}
