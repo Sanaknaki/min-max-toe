@@ -10,7 +10,7 @@
 
 
 ### Application of the Minimax Theorem:
-	In the game of Tic-Tac-Toe, is a zero-sum two-player game that can be played using the minimax theorem. Essentially, the maximizer (let’s say player 1) aims to achieve the maximum value, whereas the minimizer (player 2) aims to minimize player 1’s payoffs, while maximizing their own payoffs. In conjunction with this, alpha-beta pruning is used to eliminate the number of nodes that do not influence the search tree. In class, we discussed pruning methods using backwards induction. Alpha-beta pruning is a prime example of how to eliminate options and rank each possibility by assigning a position and depth to each function. Essentially, alpha-beta pruning returns a static evaluation of each position to allow the bot to choose the optimal outcome. The higher the score, the better for the bot; the lower score, the better for the opponent.
+In the game of Tic-Tac-Toe, is a zero-sum two-player game that can be played using the minimax theorem. Essentially, the maximizer (let’s say player 1) aims to achieve the maximum value, whereas the minimizer (player 2) aims to minimize player 1’s payoffs, while maximizing their own payoffs. In conjunction with this, alpha-beta pruning is used to eliminate the number of nodes that do not influence the search tree. In class, we discussed pruning methods using backwards induction. Alpha-beta pruning is a prime example of how to eliminate options and rank each possibility by assigning a position and depth to each function. Essentially, alpha-beta pruning returns a static evaluation of each position to allow the bot to choose the optimal outcome. The higher the score, the better for the bot; the lower score, the better for the opponent.
 
 
 
