@@ -1,9 +1,9 @@
 // Variables
 var board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 var YOU = 1;
-var BOT = -1;
+var BOT = 2;
 var who = 1;
-
+var gameIsDone = false;
 
 /* 
  * It's the bots turn.
@@ -13,31 +13,39 @@ function botTurn() {
 	var move;
 	var cell;
 
+	// Grabs all available cells.
 	cellsAvail = cellsAvailable(board);
-	x = cellsAvail[0][0];
-	y = cellsAvail[0][1];
+
+	if(cellsAvail.length > 0 && gameIsDone == false) {
+		// Picks the first instance for now.
+		x = cellsAvail[0][0];
+		y = cellsAvail[0][1];
 
 
-	console.log("x : " + x);
-	console.log("y : " + y);
+		// console.log("x : " + x);
+		// console.log("y : " + y);
 
-	if (placeMove(x, y, BOT)) {
-		cell = document.getElementById(String(x) + String(y));
-		cell.innerHTML = "O";
-		who = 1;
+		// Place the move.
+		if (placeMove(x, y, BOT)) {
+			cell = document.getElementById(String(x) + String(y));
+			cell.innerHTML = "O";
+			who = 1;
+		}
+	} else {
+
 	}
 }
 
 /* 
  * Cells that are left on the board to be chosen
 */
-function cellsAvailable(current_state){
+function cellsAvailable(currentState){
 	var cellsAvailable = [];
 
-	// Go over the board 'current_state' and find all open cells.
+	// Go over the board 'currentState' and find all open cells.
 	for (var x = 0; x < 3; x++) {
 		for (var y = 0; y < 3; y++) {
-			if (current_state[x][y] == 0)
+			if (currentState[x][y] == 0)
 				cellsAvailable.push([x, y]);
 		}
 	}
@@ -59,12 +67,11 @@ function selectCell(cell) {
 	var y = cell.id.split("")[1];
 	
 	// You clicked .. ?
-	if(who == 1) {
+	if(who == 1 && gameIsDone == false) {
 		var move = placeMove(x, y, YOU);
 		if (move == true) {
 			cell.innerHTML = "X";
 			who = 0;
-			botTurn();
 		}
 	}
 
@@ -72,9 +79,21 @@ function selectCell(cell) {
 	if (gameIsOver(board) > 0) {
 		var mess = document.getElementById("message");
 		mess.innerHTML = "YOU WIN!";
+		gameIsDone = true;
 	} else if (gameIsOver(board) < 0) {
 		var mess = document.getElementById("message");
-		mess.innerHTML = "YOU LOSE!";	
+		mess.innerHTML = "YOU LOSE!";
+		gameIsDone = true;	
+	}
+
+	if(cellsAvailable(board).length == 0 && gameIsOver(board) == 0) {
+		var mess = document.getElementById("message");
+		mess.innerHTML = "DRAW";
+		gameIsDone = true;
+	}
+
+	if(who == 0) {
+		botTurn();
 	}
 }
 
@@ -130,16 +149,16 @@ function moveIsValid(x, y) {
 /* 
  * Given a game state and a player number, check if either of them win.
 */
-function checkGameOver(current_state, playerValue) {
+function checkGameOver(currentState, playerValue) {
 	// All states where someone wins
-	var allStates = [[current_state[0][0], current_state[0][1], current_state[0][2]],
-					 [current_state[1][0], current_state[1][1], current_state[1][2]],
-					 [current_state[2][0], current_state[2][1], current_state[2][2]],
-					 [current_state[0][0], current_state[1][0], current_state[2][0]],
-					 [current_state[0][1], current_state[1][1], current_state[2][1]],
-					 [current_state[0][2], current_state[1][2], current_state[2][2]],
-					 [current_state[0][0], current_state[1][1], current_state[2][2]],
-					 [current_state[2][0], current_state[1][1], current_state[0][2]]];
+	var allStates = [[currentState[0][0], currentState[0][1], currentState[0][2]],
+					 [currentState[1][0], currentState[1][1], currentState[1][2]],
+					 [currentState[2][0], currentState[2][1], currentState[2][2]],
+					 [currentState[0][0], currentState[1][0], currentState[2][0]],
+					 [currentState[0][1], currentState[1][1], currentState[2][1]],
+					 [currentState[0][2], currentState[1][2], currentState[2][2]],
+					 [currentState[0][0], currentState[1][1], currentState[2][2]],
+					 [currentState[2][0], currentState[1][1], currentState[0][2]]];
 
 	// For all possible states, check if you won.
 	for (var i = 0; i < 8; i++) {
@@ -164,16 +183,17 @@ function checkGameOver(current_state, playerValue) {
  * Send same state, with both player and bot value.
  * Return the winner.
 */
-function gameIsOver(current_state) {
-	if(checkGameOver(current_state, YOU) == true) {
-		console.log("You win!")
+function gameIsOver(currentState) {
+	if(checkGameOver(currentState, YOU) == true) {
+		// You win
 		return 1;
 	} else {
-		if(checkGameOver(current_state, BOT) == true) {
-			console.log("You win!")
+		if(checkGameOver(currentState, BOT) == true) {
+			// You lose
 			return -1;
 		}
 
+		// So far nothing
 		return 0;
 	}
 }
