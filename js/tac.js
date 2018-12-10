@@ -58,7 +58,6 @@ function restartGame() {
 	who = 1;
 }
 
-
 /* 
  * Cells that are left on the board to be chosen
 */
@@ -96,6 +95,10 @@ function selectCell(cell) {
 	if(who == 1 && gameIsDone == false) {
 		var move = placeMove(x, y, YOU);
 		if (move == true) {
+			if(document.getElementById("btnStart").disabled == false) {
+				document.getElementById("btnStart").innerHTML = "Restart"
+				document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+			}
 			cell.innerHTML = "X";
 			who = 0;
 		}
