@@ -1,8 +1,13 @@
+// A representation of a Node in a tree data structure
 class Node {
+
+	// Creates the Node instance
 	constructor(isBotTurn, board, depth) {
+		// Values to represent Player moves in 2D matrix
         this.BOT_NUM = 2;
 	    this.USER_NUM = 1;
-        
+		
+		// Initilize the turn, tic tac toe board and the graph depth
         this.isBotTurn = isBotTurn;
         this.board = board;
         this.depth = depth;
@@ -28,11 +33,13 @@ class Node {
 			this.isGameDone = true;
 		}
     }
-    
+	
+	// Sets the move played
     setMovePlayed(val){
         this.movePlayed = val;
     }
 	
+	// Checks if the Game is done
 	gameIsDone() {
 		for (let i=0; i<3; ++i) {
 			for (let k=0; k<3; ++k) {
@@ -43,6 +50,7 @@ class Node {
 		return true;
 	}
 	
+	// Generates Neighboring Games States from the current one
 	GenerateNeighbors() {
 		for (let i=0; i<3; ++i) {
 			for (let k=0; k<3; ++k) {
@@ -86,7 +94,8 @@ class Node {
 		
 		return 0;
 	}
-    
+	
+	// Prints the tic tac toe board to the console
     print() {
 		for (let i=0; i<3; ++i) {
             console.log(this.board.join("\n"))

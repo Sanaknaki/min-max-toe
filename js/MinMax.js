@@ -1,21 +1,22 @@
+// Implementation of the Minimax Algorithm
 class MinMax {
-
-	constructor() {
-    }
-    
+	// Returns the Best Move given the current board
     getBestMove(b) {
+		// Creates a new Node
         var currentNode = new Node(true, b, 0);
 
+		// Sets the bestValue to the smallest value possible
         var bestValue = Number.MIN_SAFE_INTEGER;
 		var bestMove = [];
-    
+	
+		// Iterates through all the neighbors and calculates the payoff values
         currentNode.neighbors.forEach(n => {
             let v = this.calcMinMax(n);
 
             n.print();
             console.log(v);
 
-
+			// Tries to get the maximum valued move
 			if (v > bestValue) {
 				bestValue = v;
 				bestMove = n.movePlayed;
@@ -28,6 +29,9 @@ class MinMax {
         return bestMove
     }
 	
+	// Recursively Calculates the payoffs for each path in the game tree
+	// Attempts to maximize the players payoff
+	// Attempts to minimize the opponent's payoff
 	calcMinMax(node) {
 		if (node.isGameDone) {
 			return node.score;
