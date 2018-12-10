@@ -13,9 +13,51 @@ function botTurn() {
 	var move;
 	var cell;
 
-	mm = new MinMax(board);
-	console.log(mm.getBestMove())
+	console.log(board)
+
+	let mm = new MinMax(board);
+	var coords = mm.getBestMove(this.board);
+	x = coords[0];
+	y = coords[1];
+
+	placeMove(x,y,BOT)
+
+	var cell = document.getElementById(String(x)+String(y));
+	cell.innerHTML = "O";
+
+	checkGameState()
+
+	if(cellsAvailable(board).length == 0 && gameIsOver(board) == 0) {
+		var mess = document.getElementById("message");
+		mess.innerHTML = "DRAW";
+		document.getElementById("btnStart").innerHTML = "Restart"
+		document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+		gameIsDone = true;
+	}
+
+	who = 1;
 }
+
+/* 
+ * Restart Game
+*/
+function restartGame() {
+	for (var x = 0; x < 3; x++) {
+		for (var y = 0; y < 3; y++) {
+			board[x][y] = 0;
+			boardy = document.getElementById(String(x) + String(y));
+			boardy.innerHTML = "";
+		}
+	}
+
+	document.getElementById("btnStart").innerHTML = "AI Start"
+	document.getElementById("btnStart").setAttribute( "onClick", "botStart()" );
+	document.getElementById("message").innerHTML = "";
+
+	gameIsDone = false;
+	who = 1;
+}
+
 
 /* 
  * Cells that are left on the board to be chosen
@@ -35,14 +77,17 @@ function cellsAvailable(currentState){
 	return cellsAvailable;
 }
 
+function botStart() {
+	if (cellsAvailable(this.board).length == 9)
+		document.getElementById("btnStart").innerHTML = "Restart"
+		document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+		botTurn();
+}
+
 /* 
  * Select a cell on the board and place move.
 */
 function selectCell(cell) {
-
-	// You decided to go first
-	var botStartButton = document.getElementById("btnStart");
-	botStartButton.disabled = true;
 
 	var x = cell.id.split("")[0];
 	var y = cell.id.split("")[1];
@@ -56,24 +101,19 @@ function selectCell(cell) {
 		}
 	}
 
-	// Check the states after each click.
-	if (gameIsOver(board) > 0) {
-		var mess = document.getElementById("message");
-		mess.innerHTML = "YOU WIN!";
-		gameIsDone = true;
-	} else if (gameIsOver(board) < 0) {
-		var mess = document.getElementById("message");
-		mess.innerHTML = "YOU LOSE!";
-		gameIsDone = true;	
-	}
+	checkGameState()
 
 	if(cellsAvailable(board).length == 0 && gameIsOver(board) == 0) {
 		var mess = document.getElementById("message");
 		mess.innerHTML = "DRAW";
+
+		document.getElementById("btnStart").innerHTML = "Restart"
+		document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+
 		gameIsDone = true;
 	}
 
-	if(who == 0) {
+	if(who == 0 && cellsAvailable(this.board).length != 0) {
 		botTurn();
 	}
 }
@@ -91,6 +131,23 @@ function placeMove(x, y, playerValue) {
 	}
 }
 
+function checkGameState() {
+	// Check the states after each click.
+	if (gameIsOver(board) > 0) {
+		var mess = document.getElementById("message");
+		mess.innerHTML = "YOU WIN!";
+		document.getElementById("btnStart").innerHTML = "Restart"
+		document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+		gameIsDone = true;
+	} else if (gameIsOver(board) < 0) {
+		var mess = document.getElementById("message");
+		mess.innerHTML = "YOU LOSE!";
+		document.getElementById("btnStart").innerHTML = "Restart"
+		document.getElementById("btnStart").setAttribute( "onClick", "restartGame()" );
+		gameIsDone = true;	
+	}
+}
+
 /* 
  * Check if a movie is value before placing at position (x,y).
 */
@@ -101,31 +158,6 @@ function moveIsValid(x, y) {
 		return false;
 	}
 }
-
-// function checkWin() {
-// 	console.log(board);
-// 	if((board[0][0] === 1 && board[1][0] === 1 && board[2][0] === 1) ||
-// 	   (board[0][1] === 1 && board[1][1] === 1 && board[2][1] === 1) ||
-// 	   (board[0][2] === 1 && board[1][2] === 1 && board[2][2] === 1) ||
-// 	   (board[0][0] === 1 && board[0][1] === 1 && board[0][2] === 1) ||
-// 	   (board[1][0] === 1 && board[1][1] === 1 && board[1][2] === 1) ||
-// 	   (board[2][0] === 1 && board[2][1] === 1 && board[2][2] === 1) ||
-// 	   (board[0][0] === 1 && board[1][1] === 1 && board[2][2] === 1) || 
-// 	   (board[0][2] === 1 && board[1][1] === 1 && board[2][0] === 1)) {
-// 			var mess = document.getElementById("message");
-// 			mess.innerHTML = "X WINS!";
-// 	} else if ((board[0][0] === -1 && board[1][0] === -1 && board[2][0] === -1) ||
-// 	   (board[0][1] === -1 && board[1][1] === -1 && board[2][1] === -1) ||
-// 	   (board[0][2] === -1 && board[1][2] === -1 && board[2][2] === -1) ||
-// 	   (board[0][0] === -1 && board[0][1] === -1 && board[0][2] === -1) ||
-// 	   (board[1][0] === -1 && board[1][1] === -1 && board[1][2] === -1) ||
-// 	   (board[2][0] === -1 && board[2][1] === -1 && board[2][2] === -1) ||
-// 	   (board[0][0] === -1 && board[1][1] === -1 && board[2][2] === -1) || 
-// 	   (board[0][2] === -1 && board[1][1] === -1 && board[2][0] === -1)) {
-// 		var mess = document.getElementById("message");
-// 		mess.innerHTML = "O WINS!";
-// 	}
-// }
 
 /* 
  * Given a game state and a player number, check if either of them win.

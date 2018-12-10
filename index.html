@@ -15,9 +15,7 @@ Date : December 09, 2018
 		<script type="text/javascript" src="js/tac.js"></script>
 	</head>
 	<body>
-
-		<p id="message"></p>
-		<br/>
+		<br><br><br><br><br><br><br><br><br>
 		<table class="board" cellspacing="0">
 			<tr>
 				<td id=00 onclick="selectCell(this)" />
@@ -38,6 +36,9 @@ Date : December 09, 2018
 			</tr>
 		</table>
 
-		<input type="button" value="AI Starts" id="btnStart" class="btn btn-success" onclick="botStarts(this)" />
+		<center>
+			<h1 id="message"></h1>
+			<button id="btnStart" class="btn btn-success" type="button" onclick="botStart()">AI Start</button>
+		</center>
 	</body>
 </html>

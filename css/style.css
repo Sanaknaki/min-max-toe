@@ -1,5 +1,10 @@
+body {
+	background: #85C7F2 !important;
+}
+
 /* Board */
 .board {
+	color: #85C7F2;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 5px;
@@ -14,6 +19,8 @@
 .board td {
 	border-left: 5px solid #000;
 	border-bottom: 5px solid #000;
+	border-color: #85C7F2;
+	background-color: #FFE693;
 }
 
 .board td:first-child {
@@ -32,5 +39,9 @@
 }
 
 .board td:hover {
-	background: lightgray;
+	background: #EDD482;
+}
+
+#message {
+	font-size: 4em;
 }

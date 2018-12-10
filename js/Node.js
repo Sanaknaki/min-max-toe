@@ -9,7 +9,7 @@ class Node {
         
         this.movePlayed = [];
 
-        this.value = 0;
+        this.score = 0;
         this.isGameDone = false;
 
         this.neighbors = [];
@@ -19,9 +19,9 @@ class Node {
 		var winningPlayer = this.winningPlayer();
 		if (winningPlayer != 0) {
 			if (winningPlayer == this.BOT_NUM) {
-				this.value = 10 - depth;
+				this.score = 10 - depth;
 			} else {
-				this.value = depth - 10;
+				this.score = this.depth - 10;
 			}
 			this.isGameDone = true;
 		} else if (this.gameIsDone()) {
@@ -36,7 +36,7 @@ class Node {
 	gameIsDone() {
 		for (let i=0; i<3; ++i) {
 			for (let k=0; k<3; ++k) {
-				if (board[i][k] == 0)
+				if (this.board[i][k] == 0)
 					return false;
 			}
 		}
@@ -46,9 +46,14 @@ class Node {
 	GenerateNeighbors() {
 		for (let i=0; i<3; ++i) {
 			for (let k=0; k<3; ++k) {
-				if (board[i][k] == 0) {
-					var newBoard = board
-					// var newBoard = board.map(inner => inner.slice());
+				if (this.board[i][k] == 0) {
+
+					let newBoard = [[], [], []];
+					for (let x=0; x<3; x++) {
+						for (let y=0; y<3; y++) {
+							newBoard[x][y] = this.board[x][y];
+						}
+					}
 					
 					if (this.isBotTurn) {
 						newBoard[i][k] = this.BOT_NUM;
@@ -56,7 +61,7 @@ class Node {
 						newBoard[i][k] = this.USER_NUM;
 					}
 					
-					var newNode = new Node(!this.isBotTurn, newBoard, this.depth + 1);
+					let newNode = new Node(!this.isBotTurn, newBoard, this.depth + 1);
 					newNode.setMovePlayed([i, k]);
 					this.neighbors.push(newNode);
 				}
@@ -84,7 +89,7 @@ class Node {
     
     print() {
 		for (let i=0; i<3; ++i) {
-            console.log(board.join("\n"))
+            console.log(this.board.join("\n"))
 		}
 		console.log();
 	}
